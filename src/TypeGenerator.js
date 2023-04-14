@@ -11,17 +11,17 @@ fs.readFileSync(path.resolve(__dirname, "./icons/index.js"), "utf8")
       .match(/export \{ default as (\w+) \} from "\.\/(\w+)";/)[1]
       .toString();
     icons.push({ name });
+    return name;
   });
-
 // create index.d.ts file add this type
 fs.writeFileSync(
   path.resolve(__dirname, "./index.d.ts"),
   `declare interface RemixIconProps {
-    name: ${icons.map(icon => '"' + icon.name + '"').join(" | ")};
-    size?: number | string;
-    color?: string;
-    [key: string]: any;
-  }
-  declare const RemixIcon: React.FC<RemixIconProps>;
-  export default RemixIcon;`
+      name: ${icons.map(icon => '"' + icon.name + '"').join(" | ")};
+      size?: number | string;
+      color?: string;
+      [key: string]: any;
+    }
+    declare const RemixIcon: React.FC<RemixIconProps>;
+    export default RemixIcon;`
 );
